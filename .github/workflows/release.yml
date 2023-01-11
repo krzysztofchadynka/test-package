@@ -13,16 +13,19 @@ jobs:
       - name: 'Checkout code'
         uses: actions/checkout@v3
 
-      - name: 'Create release'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
-        with:
-          tag_name: 'test-tag'
-          release_name: ${{ steps.changelog.outputs.tag }}
-          body: ${{ steps.changelog.outputs.clean_changelog }}
-
 #      - name: 'Create release'
-#        uses: zendesk/action-create-release@v1
+#        uses: actions/create-release@v1
 #        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          GITHUB_TOKEN: ${{ secrets.github_token }}
+#        with:
+#          tag_name: ${{ steps.changelog.outputs.tag }}
+#          release_name: ${{ steps.changelog.outputs.tag }}
+#          body: ${{ steps.changelog.outputs.clean_changelog }}
+
+      - name: 'Create release with increment'
+        uses: zendesk/action-create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          auto_increment_type: 'minor'
+          tag_schema: 'semantic'
